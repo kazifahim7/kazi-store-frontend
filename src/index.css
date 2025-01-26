@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import "tailwindcss";
+
+
+
+
+body{
+    font-family: "JetBrains Mono", serif;
+    scroll-behavior: smooth;
+}
+
+@keyframes custom-ping {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+.custom-ping {
+    animation: custom-ping 1.5s ease-in-out infinite;
+}
