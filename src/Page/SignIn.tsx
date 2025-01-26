@@ -1,10 +1,20 @@
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../Redux/Feature/authApi";
+import { toast } from "sonner";
+import { useAppDispatch } from "../Redux/hook";
+import { setUser } from "../Redux/Feature/authSlice";
+import { jwtDecode } from "jwt-decode";
 
 const SignIn = () => {
+
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [login]=useLoginMutation()
+    const navigate=useNavigate()
+    const dispatch=useAppDispatch()
+    
     const {
         register,
         handleSubmit,
@@ -15,8 +25,23 @@ const SignIn = () => {
         setPasswordVisible(!passwordVisible);
     };
 
-    const onSubmit:SubmitHandler<FieldValues> = (data) => {
-        console.log("Form Data:", data); // Replace this with API call or further processing
+    const onSubmit:SubmitHandler<FieldValues> =async (data) => {
+
+
+        const id = toast.loading("creating...")
+        try {
+            const result = await login(data).unwrap()
+            const user = jwtDecode(result?.data?.token);
+            if (result) {
+                dispatch(setUser({user:{...user},token:result?.data?.token}))
+
+                toast.success(result.message, { id })
+                navigate("/")
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            toast.error(error.data.message, { id })
+        }
     };
 
     return (

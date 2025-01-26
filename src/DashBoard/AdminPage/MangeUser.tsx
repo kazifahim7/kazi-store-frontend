@@ -1,82 +1,122 @@
-import { Button, Space, Table, TableColumnsType } from "antd";
+import { Button, Pagination, Space, Table, TableColumnsType } from "antd";
+import { useAllUserQuery, useUpdateStatusMutation } from "../../Redux/Feature/authApi";
+import { toast } from "sonner";
 
 interface DataType {
     key: React.Key;
+    id: string,
     name: string;
-    age: number;
-    address: string;
+    email: string;
+    role: string;
+    isBlocked: string,
 }
-const columns: TableColumnsType<DataType> = [
-    {
-        title: 'Name',
-        dataIndex: 'name',
-    },
-    {
-        title: 'Age',
-        dataIndex: 'age',
-    },
-    {
-        title: 'Address',
-        dataIndex: 'address',
-    },
-    {
-        title: 'Action',
-        dataIndex: 'x',
-        render: (item) => {
-            return (
-                <>
-                    <Space>
 
-                        <Button onClick={() => console.log(item)}>Block</Button>
-                        <Button onClick={() => console.log(item)}>Block</Button>
-                    </Space>
-                </>
-            )
-        }
-    },
-];
 
-const data: DataType[] = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sydney No. 1 Lake Park',
-    },
-    {
-        key: '4',
-        name: 'Jim Red',
-        age: 32,
-        address: 'London No. 2 Lake Park',
-    },
-];
 
 
 const MangeUser = () => {
+    const { data: allUser ,isFetching } = useAllUserQuery(undefined)
+    const [updataStatusToDB] = useUpdateStatusMutation()
+
+
+    const updataStatus =async (id: React.Key, status: string) => {
+
+        const data = {
+            id: id,
+            data: {
+                isBlocked: status
+            }
+        }
+
+        
+
+        const tid = toast.loading("updating...")
+        try {
+            const result = await updataStatusToDB(data).unwrap()
+            if (result) {
+                toast.success(result.message, { id:tid })
+               
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            toast.error(error.data.message, { id:tid })
+        }
+
+
+
+
+
+    }
+
+
+
+
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const dataOptions: DataType[] = allUser?.data.map((user: any) => (
+        {
+            key: user?._id,
+            id: user?._id,
+            name: user?.name,
+            email: user?.email,
+            role: user?.role,
+            isBlocked: user?.isBlocked
+        }
+    ))
+
+    const columns: TableColumnsType<DataType> = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+        },
+        {
+            title: 'Role',
+            dataIndex: 'role',
+        },
+        {
+            title: 'Status',
+            dataIndex: 'isBlocked',
+        },
+        {
+            title: 'Action',
+            render: (_, item) => {
+                const status = item?.isBlocked
+                return (
+                    <>
+                        <Space>
+
+                            {
+                                status === "active" ? <Button onClick={() => updataStatus(item.key, "block")}>Block</Button> : <Button onClick={() => updataStatus(item.key, "active")}>UnBlock</Button>
+                            }
+
+
+
+                        </Space>
+                    </>
+                )
+            }
+        },
+    ];
+
+
+
+
     return (
         <div >
             <div className="text-center capitalize text-2xl font-bold underline">all user</div>
 
             <div className="pt-12">
 
-                <Table<DataType> columns={columns} dataSource={data} pagination={false} />
+                <Table<DataType> loading={isFetching} columns={columns} dataSource={dataOptions} pagination={false} />
             </div>
 
 
             <br />
-            {/* <Pagination align="center" current={page} onChange={(value) => setPage(value)} pageSize={studentData?.meta?.limit} total={studentData?.meta?.total}></Pagination> */}
+            <Pagination align="center" current={1} ></Pagination>
         </div>
     );
 };

@@ -11,6 +11,9 @@ import {
 import { Link, NavLink } from 'react-router-dom';
 
 import { TiShoppingCart } from "react-icons/ti";
+import { useAppDispatch, useAppSelector } from '../Redux/hook';
+import { logOut } from '../Redux/Feature/authSlice';
+import { toast } from 'sonner';
 
 
 
@@ -18,7 +21,16 @@ import { TiShoppingCart } from "react-icons/ti";
 
 export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const role ="admin"
+    const user=useAppSelector((state)=>state.auth.user)
+    const dispatch=useAppDispatch()
+
+    console.log(user)
+
+
+
+    const role = user?.role
+   
+   
 
     return (
         <header className="bg-white">
@@ -94,6 +106,17 @@ export default function Navbar() {
                             DashBoard
                         </NavLink>
                    }
+                   {
+                        role === "user" && <NavLink
+                            to="/dashBoard/payment-history"
+                            className={({ isActive }) =>
+                                `-mx-3 block rounded-lg px-3 py-2 text-xl font-semibold ${isActive ? "text-orange-500" : "text-gray-900"
+                                } hover:bg-gray-50`
+                            }
+                        >
+                            DashBoard
+                        </NavLink>
+                   }
                 </PopoverGroup>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-5">
 
@@ -106,12 +129,19 @@ export default function Navbar() {
 
                    
                    
+                    {
+                        user ? <NavLink to={''} onClick={() => {
+                            dispatch(logOut())
+                            toast.success("logOut successful")
+                        }} className="text-xl font-semibold text-gray-900">
+                            logOut <span aria-hidden="true">&rarr;</span>
+                        </NavLink> : <NavLink to={'/login'} className="text-xl font-semibold text-gray-900">
+                            LogIn <span aria-hidden="true">&rarr;</span>
+                        </NavLink>
+                    }
 
 
-
-                    <NavLink to={'/login'} className="text-xl font-semibold text-gray-900">
-                        LogIn <span aria-hidden="true">&rarr;</span>
-                    </NavLink>
+                    
                 </div>
             </nav>
 
@@ -187,6 +217,17 @@ export default function Navbar() {
                                         DashBoard
                                     </NavLink>
                                 }
+                                {
+                                    role === "user" && <NavLink
+                                        to="/dashBoard/payment-history"
+                                        className={({ isActive }) =>
+                                            `-mx-3 block rounded-lg px-3 py-2 text-xl font-semibold ${isActive ? "text-orange-500" : "text-gray-900"
+                                            } hover:bg-gray-50`
+                                        }
+                                    >
+                                        DashBoard
+                                    </NavLink>
+                                }
                                
                             </div>
                             <div className="py-6">
@@ -195,9 +236,16 @@ export default function Navbar() {
                                         <TiShoppingCart></TiShoppingCart>
                                     </Link>
                                 </div>
-                                <NavLink to={'/login'} className="text-xl font-semibold text-gray-900">
-                                    LogIn <span aria-hidden="true">&rarr;</span>
-                                </NavLink>
+                                {
+                                    user ? <NavLink onClick={() => {
+                                        dispatch(logOut())
+                                        toast.success("logOut successful")
+                                    }} to={''} className="text-xl font-semibold text-gray-900">
+                                        logOut <span aria-hidden="true">&rarr;</span>
+                                    </NavLink> : <NavLink to={'/login'} className="text-xl font-semibold text-gray-900">
+                                        LogIn <span aria-hidden="true">&rarr;</span>
+                                    </NavLink>
+                                }
                             </div>
                         </div>
                     </div>

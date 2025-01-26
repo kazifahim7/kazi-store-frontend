@@ -6,11 +6,37 @@ const authApi=baseApi.injectEndpoints({
         // <- register user ->
         register:builder.mutation({
             query:(data)=>({
-                url:'',
+                url:'/auth/create-user',
                 method:"POST",
                 body:data
             })
-        })
+        }),
+
+        login:builder.mutation({
+            query:(data)=>({
+                url:'/auth/login',
+                method:"POST",
+                body:data
+            })
+        }),
+
+        allUser:builder.query({
+            query:()=>({
+                url:'/auth/all-users',
+                method:"GET",
+            }),
+            providesTags:["user"]
+        }),
+
+
+        updateStatus: builder.mutation({
+            query: (data) => ({
+                url: `/auth/update-status/${data.id}`,
+                method: "PATCH",
+                body: data.data
+            }),
+            invalidatesTags:["user"]
+        }),
 
 
 
@@ -19,4 +45,4 @@ const authApi=baseApi.injectEndpoints({
 
 
 
-export const {useRegisterMutation}=authApi
+export const {useRegisterMutation,useLoginMutation,useAllUserQuery,useUpdateStatusMutation}=authApi

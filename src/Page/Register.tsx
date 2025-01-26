@@ -2,18 +2,34 @@
 import  { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { BiShow, BiHide } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "../Redux/Feature/authApi";
+import { toast } from "sonner";
 
 const SignUpSection = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
 
+    const [createUser]=useRegisterMutation()
+
     const togglePasswordVisibility = () => {
         setShowPassword((prevState) => !prevState);
     };
+    const navigate=useNavigate()
 
-    const onSubmit:SubmitHandler<FieldValues> = (data) => {
-        console.log("Form Data:", data);
+    const onSubmit:SubmitHandler<FieldValues> = async(data) => {
+        const id =toast.loading("creating...")
+        try {
+            const result= await createUser(data).unwrap()
+            if(result){
+                toast.success(result.message,{id})
+                navigate("/login")
+            }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error:any) {
+            toast.error(error.data.message,{id})
+        }
+
     };
 
     return (
