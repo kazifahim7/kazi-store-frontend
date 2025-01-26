@@ -1,25 +1,63 @@
 
+import axios from 'axios';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { FaUpload } from 'react-icons/fa6';
+import { toast } from 'sonner';
+import { useCreateProductMutation } from '../../Redux/Feature/ProductApi';
 
 const CreateProduct = () => {
-    const { register, handleSubmit,  reset, formState: { errors } } = useForm();
- 
+    const { register, handleSubmit,reset,   formState: { errors } } = useForm();
+    const [createProduct] = useCreateProductMutation()
+    
 
-    const onSubmit:SubmitHandler<FieldValues> = (data,e) => {
-        const img=e?.target.img.files[0]
+    const onSubmit:SubmitHandler<FieldValues> =async (data,e) => {
+        const image=e?.target.img.files[0]
         
         const formData = new FormData()
-        formData.append("image",img)
+        formData.append("image",image)
 
 
         // send to image BB
 
+       
+
+        const id = toast.loading("creating...")
+        try {
+
+            const imageResponse = await axios.post(
+                `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_BB_KEY}`,
+                formData
+            );
+            const imageUrl = imageResponse.data.data.display_url
+            console.log(imageUrl)
+
+
+
+            data.img=imageUrl
+            data.quantity = Number(data.quantity)
+            data.price = Number(data.price)
+            
+            
+
+
+
+
+
+
+            const result = await createProduct(data).unwrap()
+            if (result) {
+                toast.success(result.message, { id })
+                reset()
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            toast.error(error.data.message, { id })
+        }
+
 
         
-        console.log('Form Data:', data);
-        alert('Form submitted successfully!');
-        reset();
+        
+      
         
     };
 
