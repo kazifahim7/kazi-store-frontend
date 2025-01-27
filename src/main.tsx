@@ -26,6 +26,12 @@ import { Provider } from 'react-redux';
 import { persistor, store } from './Redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Toaster } from 'sonner';
+import UpdateProduct from './DashBoard/AdminPage/UpdateProduct';
+import PaymentHistory from './DashBoard/user/PaymentHistory';
+import UpdateProfile from './DashBoard/user/ManageProfile';
+import Protected from './privateRoutes/Protected';
+import AdminRoutes from './privateRoutes/AdminRoutes';
+import UserRoutes from './privateRoutes/UserRoutes';
 
 
 const router = createBrowserRouter([
@@ -47,15 +53,15 @@ const router = createBrowserRouter([
         element: <Contact></Contact>
       },
       {
-        path: "/details",
+        path: "details/:id",
         element: <ProductDetail></ProductDetail>
       },
       {
-        path: "/success",
+        path: "success",
         element: <PaymentSuccess></PaymentSuccess>
       },
       {
-        path: "/fail",
+        path: "fail",
         element: <PaymentFailure></PaymentFailure>
       },
       {
@@ -64,7 +70,7 @@ const router = createBrowserRouter([
       },
       {
         path: "cart",
-        element: <Cart></Cart>
+        element: <Protected><Cart></Cart></Protected>
       },
     ]
   },
@@ -79,24 +85,36 @@ const router = createBrowserRouter([
   {
     path: "/dashBoard",
     errorElement: <NotFound></NotFound>,
-    element: <MainDashBoard></MainDashBoard>,
+    element: <Protected><MainDashBoard></MainDashBoard></Protected>,
     children: [
       {
        path:"manageUser",
-       element:<MangeUser></MangeUser>
+        element: <AdminRoutes><MangeUser></MangeUser></AdminRoutes>
       },
       {
         path:"create-product",
-       element: <CreateProduct></CreateProduct>
+        element: <AdminRoutes><CreateProduct></CreateProduct></AdminRoutes>
       },
       {
         path:"all-products",
-       element: <AllProductAdmin></AllProductAdmin>
+        element: <AdminRoutes> <AllProductAdmin></AllProductAdmin></AdminRoutes>
       },
       {
         path:"all-orders",
-       element: <AllOrders></AllOrders>
+        element: <AdminRoutes><AllOrders></AllOrders></AdminRoutes>
       },
+      {
+        path:"updateProduct/:id",
+        element: <AdminRoutes><UpdateProduct></UpdateProduct></AdminRoutes>
+      },
+      {
+        path:"payment-history",
+        element: <UserRoutes><PaymentHistory></PaymentHistory></UserRoutes>
+      },
+      {
+        path:"manage-profile",
+        element: <UserRoutes><UpdateProfile></UpdateProfile></UserRoutes>
+      }
     ]
   }
 

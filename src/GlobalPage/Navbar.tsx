@@ -8,7 +8,7 @@ import {
     Bars3Icon,
     XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { Link, NavLink } from 'react-router-dom';
+import {  NavLink } from 'react-router-dom';
 
 import { TiShoppingCart } from "react-icons/ti";
 import { useAppDispatch, useAppSelector } from '../Redux/hook';
@@ -24,7 +24,7 @@ export default function Navbar() {
     const user=useAppSelector((state)=>state.auth.user)
     const dispatch=useAppDispatch()
 
-    console.log(user)
+  
 
 
 
@@ -122,9 +122,12 @@ export default function Navbar() {
 
                     <div>
                        
-                        <Link to={"cart"} className='text-xl font-bold'>
+                        <NavLink to={"cart"} className={({ isActive }) =>
+                            `-mx-3 block rounded-lg px-3 py-2 text-xl font-semibold ${isActive ? "text-orange-500" : "text-gray-900"
+                            } hover:bg-gray-50`
+                        }>
                             <TiShoppingCart></TiShoppingCart>
-                        </Link>
+                        </NavLink>
                     </div>
 
                    
@@ -232,9 +235,12 @@ export default function Navbar() {
                             </div>
                             <div className="py-6">
                                 <div className='mb-4'>
-                                    <Link to={"cart"} className='text-xl font-bold'>
+                                    <NavLink to={"cart"} className={({ isActive }) =>
+                                        `-mx-3 block rounded-lg px-3 py-2 text-xl font-semibold ${isActive ? "text-orange-500" : "text-gray-900"
+                                        } hover:bg-gray-50`
+                                    }>
                                         <TiShoppingCart></TiShoppingCart>
-                                    </Link>
+                                    </NavLink>
                                 </div>
                                 {
                                     user ? <NavLink onClick={() => {

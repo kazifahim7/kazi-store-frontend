@@ -37,6 +37,27 @@ const authApi=baseApi.injectEndpoints({
             }),
             invalidatesTags:["user"]
         }),
+        updateProfile: builder.mutation({
+            query: (data) => ({
+                url: `/auth/update-profile/${data.id}`,
+                method: "PUT",
+                body: data.data
+            }),
+            invalidatesTags:["user"]
+        }),
+
+
+        singleUser: builder.query({
+            query: (email) => ({
+                url: `/auth/user/${email}`,
+                method: "GET",
+            }),
+            providesTags: ["user"]
+        }),
+
+
+
+
 
 
 
@@ -45,4 +66,4 @@ const authApi=baseApi.injectEndpoints({
 
 
 
-export const {useRegisterMutation,useLoginMutation,useAllUserQuery,useUpdateStatusMutation}=authApi
+export const {useRegisterMutation,useLoginMutation,useAllUserQuery,useUpdateStatusMutation,useSingleUserQuery,useUpdateProfileMutation}=authApi

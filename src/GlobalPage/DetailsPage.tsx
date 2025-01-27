@@ -1,11 +1,57 @@
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
+import { useAddToCartMutation, useSingleProductQuery } from '../Redux/Feature/ProductApi';
+import { useNavigate, useParams } from 'react-router-dom';
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+import { useAppSelector } from '../Redux/hook';
+import { toast } from 'sonner';
 
 const ProductDetail = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit,reset, formState: { errors } } = useForm();
+    const {id}=useParams()
+    const {data:singleData}=useSingleProductQuery(id)
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const email=useAppSelector((state)=>state.auth.user?.email)
+
+    const navigate=useNavigate()
+
+    const [addToCart]=useAddToCartMutation()
+
+    
+
+    const onSubmit: SubmitHandler<FieldValues> = async(data) => {
+       
+        if(!email){
+            toast.error("Please Log In")
+           return navigate('/login')
+        }
+        data.email=email
+        data.quantity = Number(data.quantity)
+        data.totalPrice = Number(singleData?.data?.price * data.quantity)
+        data.product = singleData?.data?._id
+
+        if (data.quantity <0){
+            return toast.error("select more..")
+        }
+
+
         console.log('Add to Cart Data:', data);
-        alert('Product added to cart!');
+
+        const idToast = toast.loading("creating...");
+        try {
+           
+            const result = await addToCart(data).unwrap();
+            if (result) {
+                toast.success(result.message, { id: idToast });
+                navigate('/cart')
+                reset();
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            toast.error(error.data.message, { id: idToast });
+        }
+
+        
     };
 
     return (
@@ -13,20 +59,32 @@ const ProductDetail = () => {
             <div className="flex flex-col lg:flex-row items-center">
                 {/* Product Image */}
                 <div className="lg:w-1/2 p-4">
-                    <img
-                        src="https://i.postimg.cc/PJWBX8mw/Adobe-Express-file-2.png"
+
+                    <Zoom>
+                        <img
+                            alt="That"
+                            src={singleData?.data?.img}
+                            width="500"
+                        />
+                    </Zoom>
+
+
+                    {/* <img
+                        src={singleData?.data?.img}
                         alt="Product Image"
                         className="w-full h-auto object-cover rounded-lg "
-                    />
+                    /> */}
                 </div>
 
                 {/* Product Details */}
                 <div className="lg:w-1/2 p-4 space-y-4">
-                    <h1 className="text-3xl font-bold text-gray-800">Product Name</h1>
-                    <p className="text-lg text-gray-600">Brand: Awesome Brand</p>
-                    <p className="text-lg text-gray-600">Category: File</p>
-                    <p className="text-lg text-gray-600">Price: $99.99</p>
-                    <p className="text-lg text-gray-600">Description: This is a product description. It can be detailed here, highlighting the features and specifications of the product.</p>
+                    <h1 className="text-3xl font-bold text-black">{singleData?.data?.name}</h1>
+                    <p className="text-lg text-gray-600">Brand: {singleData?.data?.brand}</p>
+                    <p className="text-lg text-gray-600">Category: {singleData?.data?.category}</p>
+                    <p className="text-lg text-gray-600">quantity: {singleData?.data?.quantity}</p>
+                    <p className="text-lg text-gray-600">Price: {singleData?.data?.price} (per pack)</p>
+                    <p className="text-lg text-gray-600">inStock: {singleData?.data?.inStock ? "Yes" : "No"}</p>
+                    <p className="text-lg text-gray-600">{singleData?.data?.description}</p>
                 </div>
             </div>
 
@@ -58,12 +116,13 @@ const ProductDetail = () => {
 
                     {/* Phone Number */}
                     <div>
-                        <label className="block text-sm font-semibold">Phone Number (Optional)</label>
+                        <label className="block text-sm font-semibold">Phone Number </label>
                         <input
                             type="text"
-                            {...register('number')}
+                            {...register('number', { required: 'Number is required' })}
                             className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-indigo-300"
                         />
+                        {errors.number && <p className="text-red-500 text-sm">{errors.number.message?.toString()}</p>}
                     </div>
 
                     {/* Name */}

@@ -1,5 +1,5 @@
 import {  useState } from 'react'
-import { GrLogout } from 'react-icons/gr'
+
 
 import { BsFillHouseAddFill } from 'react-icons/bs'
 
@@ -15,6 +15,8 @@ import { Link } from 'react-router-dom'
 import { FaUser } from 'react-icons/fa'
 import { MdOutlineMenuBook, MdOutlineProductionQuantityLimits } from 'react-icons/md'
 import { FaCartFlatbedSuitcase } from 'react-icons/fa6'
+import { useAppSelector } from '../Redux/hook'
+import { CgProfile } from 'react-icons/cg'
 
 
 
@@ -24,9 +26,11 @@ import { FaCartFlatbedSuitcase } from 'react-icons/fa6'
 const Sidebar = () => {
     
     const [isActive, setActive] = useState(false)
+
+    const user = useAppSelector((state) => state.auth.user)
   
 
-    const isPosition = 'admin'
+    const isPosition = user?.role
 
    
 
@@ -152,6 +156,34 @@ const Sidebar = () => {
 
                             {/* user routes */}
 
+                            {
+                                isPosition === 'user' && <>
+
+                                    <NavLink
+                                        to='/dashBoard/payment-history'
+                                        className={({ isActive }) =>
+                                            `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${isActive ? 'bg-gray-300  text-gray-700' : 'text-white'
+                                            }`
+                                        }
+                                    >
+                                        <FaCartFlatbedSuitcase className='w-5 h-5 text-orange-500' />
+                                        <span className='mx-4 font-medium'>Payment History</span>
+                                    </NavLink>
+                                    <NavLink
+                                        to='/dashBoard/manage-profile'
+                                        className={({ isActive }) =>
+                                            `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${isActive ? 'bg-gray-300  text-gray-700' : 'text-white'
+                                            }`
+                                        }
+                                    >
+
+                                        <CgProfile className='w-5 h-5 text-orange-500' />
+                                        <span className='mx-4 font-medium'>Manage Profile</span>
+                                    </NavLink>
+
+                                </>
+                            }
+
                        
 
 
@@ -168,14 +200,7 @@ const Sidebar = () => {
 
                     {/* Profile Menu */}
 
-                    <button
-                       
-                        className='flex w-full items-center px-4 py-2 mt-5 text-[white] hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'
-                    >
-                        <GrLogout className='w-5 h-5' />
 
-                        <span className='mx-4 font-medium'>Logout</span>
-                    </button>
                 </div>
             </div>
         </>

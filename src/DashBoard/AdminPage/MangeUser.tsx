@@ -111,7 +111,7 @@ const MangeUser = () => {
 
             <div className="pt-12">
 
-                <Table<DataType> loading={isFetching} columns={columns} dataSource={dataOptions} pagination={false} />
+                <Table<DataType> scroll={{ x: 'max-content' }} loading={isFetching} columns={columns} dataSource={dataOptions} pagination={false} />
             </div>
 
 
