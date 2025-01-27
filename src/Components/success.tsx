@@ -14,7 +14,7 @@ const Success = () => {
                 </div>
 
                 <ul className="max-w-md mx-auto mt-16 space-y-12">
-                    <li className="relative flex items-start">
+                    <li data-aos-duration="1200" data-aos-delay="50" data-aos="zoom-out-down" className="relative flex items-start">
                         <div className="-ml-0.5 absolute mt-0.5 top-14 left-8 w-px border-l-4 border-dotted border-gray-300 h-full" aria-hidden="true"></div>
 
                         <div className="relative flex items-center justify-center flex-shrink-0 w-16 h-16 bg-white rounded-full shadow">
@@ -30,7 +30,7 @@ const Success = () => {
                         </div>
                     </li>
 
-                    <li className="relative flex items-start">
+                    <li data-aos-duration="1300" data-aos-delay="130" data-aos="zoom-out-down" className="relative flex items-start">
                         <div className="-ml-0.5 absolute mt-0.5 top-14 left-8 w-px border-l-4 border-dotted border-gray-300 h-full" aria-hidden="true"></div>
 
                         <div className="relative flex items-center justify-center flex-shrink-0 w-16 h-16 bg-white rounded-full shadow">
@@ -46,7 +46,7 @@ const Success = () => {
                         </div>
                     </li>
 
-                    <li className="relative flex items-start">
+                    <li data-aos-duration="1400" data-aos-delay="170" data-aos="zoom-out-down" className="relative flex items-start">
                         <div className="relative flex items-center justify-center flex-shrink-0 w-16 h-16 bg-white rounded-full shadow">
                             <svg className="w-10 h-10 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M13 10V3L4 14h7v7l9-11h-7z" />

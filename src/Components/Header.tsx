@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
 
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+AOS.init();
+
 
 const Header = () => {
     return (
@@ -7,7 +12,8 @@ const Header = () => {
             <section className="py-10 sm:py-16 lg:py-24">
                 <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
-                        <div>
+                        <div data-aos="fade-right" 
+                            data-aos-duration="1800">
                             <h1 className="text-4xl font-bold text-black sm:text-6xl lg:text-6xl">
                                 Unleash Creativity with 
                                 <div className="relative inline-flex">
@@ -66,7 +72,8 @@ const Header = () => {
                             </div>
                         </div>
 
-                        <div>
+                        <div data-aos="fade-left" 
+                            data-aos-duration="2000">
                             <img
                                 className="w-full"
                                 src="https://i.postimg.cc/Qx4RnJwc/Adobe-Express-file-1.png"
