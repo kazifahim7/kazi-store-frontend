@@ -26,6 +26,7 @@ Booken is an e-commerce platform designed to provide a seamless shopping experie
   - **Dynamic Results**: Instant updates based on search terms and filters.
   - **Product Cards**: Display product name, price, category, and a "View Details" button.
 
+  
 - **Product Details Page**:
   - Detailed product information with image.
   - "Add to Cart" button for seamless shopping.
