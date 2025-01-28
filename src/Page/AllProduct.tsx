@@ -47,7 +47,6 @@ const AllProduct = () => {
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         <option value="">Filter by category</option>
-                        <option value="all">All</option>
                         <option value="file">File</option>
                         <option value="ball pen">Ball Pen</option>
                         <option value="sticker">Sticker</option>
