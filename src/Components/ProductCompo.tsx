@@ -4,9 +4,14 @@ import { useAllProductsQuery } from "../Redux/Feature/ProductApi";
 
 const ProductCompo = () => {
 
-    const {data:allProduct}=useAllProductsQuery([])
+    const {data:allProduct,isLoading}=useAllProductsQuery([])
 
     console.log(allProduct?.data?.result)
+
+
+    if(isLoading){
+        return <h1 className="text-center"><span className="loading loading-spinner loading-lg "></span></h1>
+    }
 
 
 

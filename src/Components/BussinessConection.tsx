@@ -1,4 +1,4 @@
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+
 import { Link } from "react-router-dom";
 
 const BussinessConnection = () => {
@@ -7,13 +7,9 @@ const BussinessConnection = () => {
             <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
                 <div className="grid items-center grid-cols-1 gap-y-12 lg:grid-cols-2 lg:gap-x-24">
                    
-                        <DotLottieReact
-                       
-                            src="/public/LLDGzZXAdq.json"
-                            loop
-                            autoplay
-                        />
-                    
+                    <div className="w-full">
+                        <img src="https://i.postimg.cc/BbnVNhXh/4204968.jpg" alt="" />
+                    </div>
 
                     <div className="text-center lg:text-left">
                         <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-4xl">Grow your stationary business with quality connections.</h2>
