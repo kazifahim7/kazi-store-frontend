@@ -5,7 +5,7 @@ const baseQuery = fetchBaseQuery({
     baseUrl: "https://a-4-backend.vercel.app/api/v1",
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
-        const token = (getState() as RootState).auth.token
+        const token = (getState() as RootState).auth.token!
         if (token) {
             headers.set("authorization", `${token}`)
         }

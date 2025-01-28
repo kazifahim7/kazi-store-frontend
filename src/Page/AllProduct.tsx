@@ -12,9 +12,10 @@ const AllProduct = () => {
     const [filter, setFilter] = useState<{ name: string; value: string; }[]>([])
     const { data: allProduct,isLoading } = useAllProductsQuery([{ name: "searchTerm", value: searchText },...filter])
    
-     if(isLoading){
-        return <p className="text-center font-bold tex-xl">loading....</p>
-     }
+    if (isLoading) {
+        return <h1 className="text-center"><span className="loading loading-spinner loading-lg "></span></h1>
+    }
+
    console.log(searchText)
 
     const handleReset = () => {
