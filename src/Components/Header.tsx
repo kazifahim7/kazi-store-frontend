@@ -5,6 +5,18 @@ import 'aos/dist/aos.css'; // You can also use <link> for styles
 // ..
 AOS.init();
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+
+
+// import required modules
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+
 
 const Header = () => {
     return (
@@ -72,14 +84,44 @@ const Header = () => {
                             </div>
                         </div>
 
-                        <div data-aos="fade-left" 
-                            data-aos-duration="2000">
-                            <img
-                                className="w-full"
-                                src="https://i.postimg.cc/Qx4RnJwc/Adobe-Express-file-1.png"
-                                alt=""
-                            />
-                        </div>
+                       <div className="w-[80%] ">
+                            <Swiper
+                                spaceBetween={30}
+                                centeredSlides={true}
+                                autoplay={{
+                                    delay: 2500,
+                                    disableOnInteraction: false,
+                                }}
+                                pagination={{
+                                    clickable: true,
+                                }}
+                           
+                                modules={[Autoplay, Pagination, Navigation]}
+                                className="mySwiper"
+                            >
+                                <SwiperSlide>
+                                    <img
+                                        className="w-full"
+                                        src="https://i.postimg.cc/Qx4RnJwc/Adobe-Express-file-1.png"
+                                        alt=""
+                                    />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img
+                                        className="w-full"
+                                        src="https://i.ibb.co/DfMKMXXm/front-view-colourful-pencils-with-cello-tape-prev-ui.png"
+                                        alt=""
+                                    />
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <img
+                                        className="w-full"
+                                        src="https://i.ibb.co/fdxJ6fyk/elevated-view-lavender-bunch-eyeglasses-spiral-notebook-felt-tip-pens-dual-colored-background-prev-u.png"
+                                        alt=""
+                                    />
+                                </SwiperSlide>
+                            </Swiper>
+                       </div>
                     </div>
                 </div>
             </section>

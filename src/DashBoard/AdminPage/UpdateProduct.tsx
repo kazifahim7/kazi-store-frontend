@@ -14,6 +14,8 @@ const UpdateProduct = () => {
     const [updateProduct] = useUpdateProductMutation();
 
     const navigate=useNavigate()
+
+   
       
     useEffect(() => {
         if (product) {
@@ -69,7 +71,9 @@ const UpdateProduct = () => {
         }
     };
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) {
+        return <h1 className="text-center"><span className="loading loading-spinner loading-lg "></span></h1>
+    }
     if (error) return <p>Error loading product</p>;
 
     return (

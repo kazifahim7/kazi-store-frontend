@@ -8,10 +8,11 @@ const AllOrders = () => {
     const [changeStatus] = useUpdateOrderStatusMutation()
 
     if (isLoading) {
-        return <p className="text-center text-2xl font-bold mt-24">Loading...</p>;
+        return <h1 className="text-center"><span className="loading loading-spinner loading-lg "></span></h1>
     }
 
-    console.log(allOrders?.data);
+
+
 
     const onclick=async(id:React.Key,status:string)=>{
         const idToast = toast.loading("Updating...");

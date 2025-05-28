@@ -1,4 +1,5 @@
 import BussinessConnection from "../Components/BussinessConection";
+import CategoryCards from "../Components/Category";
 import ClientComment from "../Components/ClientComment";
 import Discount from "../Components/Discount";
 import Header from "../Components/Header";
@@ -11,6 +12,8 @@ const Home = () => {
     return (
         <div className="">
             <Header></Header>
+
+            <CategoryCards></CategoryCards>
             <ProductCompo></ProductCompo>
 
             <Discount></Discount>
